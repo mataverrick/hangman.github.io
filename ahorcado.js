@@ -1,8 +1,19 @@
 // ### VARIABLES ###
 
 // Array de palabras
-var palabras = [["atlantico", "Un océano"], ["ordenador", "Una máquina"], ["laurel", "Un árbol"], ["plaza", "Espacio público"], ["rueda", "Gran invento"], ["cereza", "Una fruta"], ["petanca", "Un juego"], ["higuera", "Un árbol"], ["everest", "Un monte"], ["relampago", "Antecede al trueno"], ["jirafa", "Un animal"], ["luxemburgo", "Un país"], ["uruguay", "Un país"], ["ilustracion", "Representación gráfica"], ["excursion", "Actividad en la naturaleza"], ["empanadilla", "De la panadería"], ["pastel", "De la pastelería"], ["colegio", "Lugar para estudiar"], ["carrera", "Competición"], ["mermelada", "Confitura"]];
-// Palabra a averiguar
+var palabras = [
+  ["cat", "bat"],
+  ["fare", "fair"],     
+  ["buy", "bye"],       
+  ["pear", "pair"],     
+  ["hear", "here"],     
+  ["night", "knight"],  
+  ["flower", "flour"],  
+  ["scene", "seen"],    
+  ["weight", "wait"],   
+  ["peace", "piece"]    
+];
+// var palabras = [["atlantico", "Un océano"], ["ordenador", "Una máquina"], ["laurel", "Un árbol"], ["plaza", "Espacio público"], ["rueda", "Gran invento"], ["cereza", "Una fruta"], ["petanca", "Un juego"], ["higuera", "Un árbol"], ["everest", "Un monte"], ["relampago", "Antecede al trueno"], ["jirafa", "Un animal"], ["luxemburgo", "Un país"], ["uruguay", "Un país"], ["ilustracion", "Representación gráfica"], ["excursion", "Actividad en la naturaleza"], ["empanadilla", "De la panadería"], ["pastel", "De la pastelería"], ["colegio", "Lugar para estudiar"], ["carrera", "Competición"], ["mermelada", "Confitura"]];
 var palabra = "";
 // Nº aleatorio
 var rand;
@@ -22,13 +33,14 @@ var btnInicio = document.getElementById("reset");
 
 // Escoger palabra al azar
 function generaPalabra() {
-  rand = (Math.random() * 19).toFixed(0);
+  rand = Math.floor(Math.random() *11); ;
   palabra = palabras[rand][0].toUpperCase();
   console.log(palabra);
 }
 
 // Funcion para pintar los guiones de la palabra
 function pintarGuiones(num) {
+  oculta = []
   for (var i = 0; i < num; i++) {
     oculta[i] = "_";
   }
@@ -43,9 +55,6 @@ function generaABC (a,z) {
   for( ; i<=j; i++) {
     letra = String.fromCharCode(i).toUpperCase();
     document.getElementById("abcdario").innerHTML += "<button value='" + letra + "' onclick='intento(\"" + letra + "\")' class='letra' id='"+letra+"'>" + letra + "</button>";
-    if(i==110) {
-      document.getElementById("abcdario").innerHTML += "<button value='Ñ' onclick='intento(\"Ñ\")' class='letra' id='"+letra+"'>Ñ</button>";
-    }
   }
 }
 
@@ -77,6 +86,10 @@ function pista() {
   document.getElementById("hueco-pista").innerHTML = palabras[rand][1];
 }
 
+function vaciar(){
+  document.getElementById("hueco-pista").innerHTML = '';
+}
+
 // Compruba si ha finalizado
 function compruebaFin() {
   if( oculta.indexOf("_") == -1 ) {
@@ -94,7 +107,7 @@ function compruebaFin() {
     for (var i = 0; i < buttons.length; i++) {
       buttons[i].disabled = true;
     }
-    document.getElementById("reset").innerHTML = "Empezar";
+    document.getElementById("reset").innerHTML = "Start";
     btnInicio.onclick = function () { location.reload() };
   }
 }
@@ -104,8 +117,10 @@ function inicio() {
   generaPalabra();
   pintarGuiones(palabra.length);
   generaABC("a","z");
+  vaciar()
   cont = 6;
-  document.getElementById("intentos").innerHTML=cont;
+  console.log(oculta)
+  document.getElementById("Attempts").innerHTML=cont;
 }
 
 // Iniciar
