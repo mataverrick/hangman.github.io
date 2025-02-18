@@ -1,106 +1,127 @@
-// Diccionario de palabras con emojis representativos
+// ### VARIABLES ###
+
+// Array de palabras
 var palabras = [
-    ["cat", "🐱"], ["bat", "🦇"],
-    ["fare", "🎟️"], ["fair", "⚖️"],
-    ["buy", "🛒"], ["bye", "👋"],
-    ["pear", "🍐"], ["pair", "👯‍♂️"],
-    ["hear", "👂"], ["here", "📍"],
-    ["night", "🌙"], ["knight", "🏇"],
-    ["flower", "🌸"], ["flour", "🍞"],
-    ["scene", "🎭"], ["seen", "👀"],
-    ["weight", "⚖️"], ["wait", "⏳"],
-    ["peace", "☮️"], ["piece", "🧩"]
-];
-
-var palabra = "";
-var emoji = "";
-var oculta = [];
-var cont = 6;
-var hueco = document.getElementById("palabra");
-var intentosRestantes = document.getElementById("intentos");
-
-// Selecciona una palabra al azar
-function generaPalabra() {
-    let rand = Math.floor(Math.random() * palabras.length);
+    ["cat", "bat"],
+    ["fare", "fair"],     
+    ["buy", "bye"],       
+    ["pear", "pair"],     
+    ["hear", "here"],     
+    ["night", "knight"],  
+    ["flower", "flour"],  
+    ["scene", "seen"],    
+    ["weight", "wait"],   
+    ["peace", "piece"]    
+  ];
+  // var palabras = [["atlantico", "Un océano"], ["ordenador", "Una máquina"], ["laurel", "Un árbol"], ["plaza", "Espacio público"], ["rueda", "Gran invento"], ["cereza", "Una fruta"], ["petanca", "Un juego"], ["higuera", "Un árbol"], ["everest", "Un monte"], ["relampago", "Antecede al trueno"], ["jirafa", "Un animal"], ["luxemburgo", "Un país"], ["uruguay", "Un país"], ["ilustracion", "Representación gráfica"], ["excursion", "Actividad en la naturaleza"], ["empanadilla", "De la panadería"], ["pastel", "De la pastelería"], ["colegio", "Lugar para estudiar"], ["carrera", "Competición"], ["mermelada", "Confitura"]];
+  var palabra = "";
+  // Nº aleatorio
+  var rand;
+  // Palabra oculta
+  var oculta = [];
+  // Elemento html de la palabra
+  var hueco = document.getElementById("palabra");
+  // Contador de intentos
+  var cont = 6;
+  // Botones de letras
+  var buttons = document.getElementsByClassName('letra');
+  // Boton de reset
+  var btnInicio = document.getElementById("reset");
+  
+  
+  // ### FUNCIONES ###
+  
+  // Escoger palabra al azar
+  function generaPalabra() {
+    rand = Math.floor(Math.random() *11); ;
     palabra = palabras[rand][0].toUpperCase();
-    emoji = palabras[rand][1];
-}
-
-// Dibuja los guiones para la palabra
-function pintarGuiones() {
-    oculta = Array(palabra.length).fill("_");
-    hueco.innerHTML = oculta.join(" ");
-}
-
-// Genera el abecedario de botones
-function generaABC() {
-    let abecedario = document.getElementById("abcdario");
-    abecedario.innerHTML = "";
-    for (let i = 65; i <= 90; i++) {
-        let letra = String.fromCharCode(i);
-        abecedario.innerHTML += `<button onclick="intento('${letra}', this)" class="letra">${letra}</button>`;
+    console.log(palabra);
+  }
+  
+  // Funcion para pintar los guiones de la palabra
+  function pintarGuiones(num) {
+    oculta = []
+    for (var i = 0; i < num; i++) {
+      oculta[i] = "_";
     }
-}
-
-// Maneja los intentos del jugador
-function intento(letra, boton) {
-    let correcto = false;
-    
-    // Deshabilita la tecla y cambia el estilo
-    boton.disabled = true;
-    boton.style.backgroundColor = "gray";
-    boton.style.color = "white";
-    boton.style.border = "2px solid black";
-
-    // Comprueba si la letra está en la palabra
-    for (let i = 0; i < palabra.length; i++) {
-        if (palabra[i] === letra) {
-            oculta[i] = letra;
-            correcto = true;
-        }
+    hueco.innerHTML = oculta.join("");
+  }
+  
+  //Generar abecedario
+  function generaABC (a,z) {
+    document.getElementById("abcdario").innerHTML = "";
+    var i = a.charCodeAt(0), j = z.charCodeAt(0);
+    var letra = "";
+    for( ; i<=j; i++) {
+      letra = String.fromCharCode(i).toUpperCase();
+      document.getElementById("abcdario").innerHTML += "<button value='" + letra + "' onclick='intento(\"" + letra + "\")' class='letra' id='"+letra+"'>" + letra + "</button>";
     }
-    
-    hueco.innerHTML = oculta.join(" ");
-
-    // Si la letra no estaba en la palabra, reduce intentos
-    if (!correcto) {
-        cont--;
-        intentosRestantes.innerHTML = cont;
-        document.getElementById("image" + cont).classList.add("fade-in");
+  }
+  
+  // Chequear intento
+  function intento(letra) {
+    document.getElementById(letra).disabled = true;
+    if(palabra.indexOf(letra) != -1) {
+      for(var i=0; i<palabra.length; i++) {
+        if(palabra[i]==letra) oculta[i] = letra;
+      }
+      hueco.innerHTML = oculta.join("");
+      document.getElementById("acierto").innerHTML = "Bien!";
+      document.getElementById("acierto").className += "acierto verde";
+    }else{
+      cont--;
+      document.getElementById("intentos").innerHTML = cont;
+      document.getElementById("acierto").innerHTML = "Fallo!";
+      document.getElementById("acierto").className += "acierto rojo";
+      document.getElementById("image"+cont).className += "fade-in";
     }
-
-    comprobarFin();
-}
-
-// Comprueba si el juego ha terminado
-function comprobarFin() {
-    if (!oculta.includes("_")) {
-        hueco.innerHTML = `${oculta.join(" ")} ${emoji}`; // Agregar el emoji junto a la palabra
-        document.getElementById("msg-final").innerHTML = "🎉 ¡Ganaste!";
-        document.getElementById("msg-final").classList.add("zoom-in");
-        hueco.style.border = "2px dashed red"; // Mantener borde rojo punteado
-    } else if (cont === 0) {
-        document.getElementById("msg-final").innerHTML = "💀 ¡Perdiste!";
-        document.getElementById("msg-final").classList.add("zoom-in");
-        hueco.style.border = "2px dashed red"; // Mantener borde rojo punteado
+    compruebaFin();
+    setTimeout(function () { 
+      document.getElementById("acierto").className = ""; 
+    }, 800);
+  }
+  
+  // Obtener pista
+  function pista() {
+    document.getElementById("hueco-pista").innerHTML = palabras[rand][1];
+  }
+  
+  function vaciar(){
+    document.getElementById("hueco-pista").innerHTML = '';
+  }
+  
+  // Compruba si ha finalizado
+  function compruebaFin() {
+    if( oculta.indexOf("_") == -1 ) {
+      document.getElementById("msg-final").innerHTML = "Felicidades !!";
+      document.getElementById("msg-final").className += "zoom-in";
+      document.getElementById("palabra").className += " encuadre";
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+      }
+      document.getElementById("reset").innerHTML = "Empezar";
+      btnInicio.onclick = function() { location.reload() };
+    }else if( cont == 0 ) {
+      document.getElementById("msg-final").innerHTML = "Game Over";
+      document.getElementById("msg-final").className += "zoom-in";
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+      }
+      document.getElementById("reset").innerHTML = "Start";
+      btnInicio.onclick = function () { location.reload() };
     }
-}
-
-// Inicia el juego
-function inicio() {
+  }
+  
+  // Restablecer juego
+  function inicio() {
     generaPalabra();
-    pintarGuiones();
-    generaABC();
+    pintarGuiones(palabra.length);
+    generaABC("a","z");
+    vaciar()
     cont = 6;
-    intentosRestantes.innerHTML = cont;
-    document.getElementById("msg-final").innerHTML = "";
-    document.getElementById("msg-final").classList.remove("zoom-in");
-    hueco.style.border = "2px solid white"; // Restablecer borde normal
-
-    // Restablecer imágenes
-    for (let i = 0; i <= 6; i++) {
-        document.getElementById("image" + i).classList.remove("fade-in");
-    }
-}
-
-window.onload = inicio;
+    console.log(oculta)
+    document.getElementById("Attempts").innerHTML=cont;
+  }
+  
+  // Iniciar
+  window.onload = inicio(); 

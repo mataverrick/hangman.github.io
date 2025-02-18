@@ -14,29 +14,27 @@
         <h3 id="acierto"></h3>
         <div class="flex-row no-wrap">
           <h2 class="palabra" id="palabra"></h2>
-          <div class="ahorcado-container">
-            <picture>
-              <img src="img/ahorcado_6.png" alt="" id="image6">
-              <img src="img/ahorcado_5.png" alt="" id="image5">
-              <img src="img/ahorcado_4.png" alt="" id="image4">
-              <img src="img/ahorcado_3.png" alt="" id="image3">
-              <img src="img/ahorcado_2.png" alt="" id="image2">
-              <img src="img/ahorcado_1.png" alt="" id="image1">
-              <img src="img/ahorcado_0.png" alt="" id="image0">
-            </picture>
-          </div>
+          <picture>
+            <img src="img/ahorcado_6.png" alt="" id="image6">
+            <img src="img/ahorcado_5.png" alt="" id="image5">
+            <img src="img/ahorcado_4.png" alt="" id="image4">
+            <img src="img/ahorcado_3.png" alt="" id="image3">
+            <img src="img/ahorcado_2.png" alt="" id="image2">
+            <img src="img/ahorcado_1.png" alt="" id="image1">
+            <img src="img/ahorcado_0.png" alt="" id="image0">
+          </picture>
         </div>
         <div class="flex-row" id="turnos">
           <div class="col">
             <h3>Remaining Attempts: <span id="intentos">6</span></h3>
           </div>
-          <div class="col" style="display: flex; height: 57px; font-weight: bold; gap: 20px;">
-            <button onclick="inicio()" class="btn btn-info" id="reset" style="font-weight: bold;">Choose Another Word</button>
-            <button onclick="pista()" class="btn btn-warning" id="pista" style="font-weight: bold;">Give Me a Hint!</button>
+          <div class="col">
+            <button onclick="inicio()" class="btn btn-info" id="reset">Choose Another Word</button>
+            <button onclick="pista()" class="btn btn-warning" id="pista">Give Me a Hint!</button>
             <span id="hueco-pista"></span>
           </div>
-        </div>
-
+          </div>
+        
         <div class="flex-row">
           <div class="col">
             <div class="flex-row" id="abcdario">
