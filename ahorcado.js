@@ -2,7 +2,7 @@
 
 // Array de palabras
 var palabras = [
-    ["cat", "bat"],
+    ["cat", "bat "],
     ["fare", "fair"],     
     ["buy", "bye"],       
     ["pear", "pair"],     
@@ -66,12 +66,12 @@ var palabras = [
         if(palabra[i]==letra) oculta[i] = letra;
       }
       hueco.innerHTML = oculta.join("");
-      document.getElementById("acierto").innerHTML = "Bien!";
+      document.getElementById("acierto").innerHTML = "Excellent!";
       document.getElementById("acierto").className += "acierto verde";
     }else{
       cont--;
       document.getElementById("intentos").innerHTML = cont;
-      document.getElementById("acierto").innerHTML = "Fallo!";
+      document.getElementById("acierto").innerHTML = "incorrect!";
       document.getElementById("acierto").className += "acierto rojo";
       document.getElementById("image"+cont).className += "fade-in";
     }
@@ -93,13 +93,13 @@ var palabras = [
   // Compruba si ha finalizado
   function compruebaFin() {
     if( oculta.indexOf("_") == -1 ) {
-      document.getElementById("msg-final").innerHTML = "Felicidades !!";
+      document.getElementById("msg-final").innerHTML = "Congratulations!";
       document.getElementById("msg-final").className += "zoom-in";
       document.getElementById("palabra").className += " encuadre";
       for (var i = 0; i < buttons.length; i++) {
         buttons[i].disabled = true;
       }
-      document.getElementById("reset").innerHTML = "Empezar";
+      document.getElementById("reset").innerHTML = "Start";
       btnInicio.onclick = function() { location.reload() };
     }else if( cont == 0 ) {
       document.getElementById("msg-final").innerHTML = "Game Over";
